@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { config } from "./config.js";
 
-const MODEL_NAME = "gemini-2.0-flash";
+const MODEL_NAME = "gemini-3.6-flash";
 
 function getModel() {
   const client = new GoogleGenerativeAI(config.geminiApiKey);
