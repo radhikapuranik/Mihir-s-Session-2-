@@ -58,6 +58,12 @@ to test the webhook locally you'll need a tunnel (e.g. `ngrok http 3000`) and po
 
 ## Deploying
 
+This is a serverless-functions-only backend (Telegram webhook + Gemini calls) - there's no
+frontend and no static build output, so `vercel.json` explicitly sets `framework`, `buildCommand`,
+and `outputDirectory` to `null` to stop Vercel's dashboard from assuming an "Other" static-site
+build and expecting a `public/` folder. Run `npm run typecheck` locally/in CI if you want type
+safety checked before deploying - it's not invoked by Vercel itself.
+
 ```bash
 vercel deploy --prod
 ```
