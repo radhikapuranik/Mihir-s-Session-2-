@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/telegram-webhook.ts": {
+      "maxDuration": 30,
+      "includeFiles": "voice-skill.txt"
+    }
+  }
+}

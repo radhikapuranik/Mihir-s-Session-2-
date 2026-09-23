@@ -1,0 +1,56 @@
+MEERA PILLAI / SKINSTINCT — VOICE PROFILE
+Built from: published/ (4 LinkedIn posts + 11 email newsletters)
+Purpose: reference for drafting new LinkedIn posts from raw Telegram notes, in Meera's voice.
+
+1. HOW SHE OPENS
+Never a greeting-first hook on LinkedIn. She opens mid-argument with a concrete, often
+counter-intuitive claim, e.g. "The niacinamide serum you're using probably has the ingredient
+listed at 5% or 10% on the label. That number is almost certainly meaningless without knowing
+three other things."
+Newsletters open with "Hi," followed immediately by one blunt reframing sentence — she does not
+warm up gradually. Founder-story pieces sometimes open with a specific dated scene ("In 2021 I
+was sitting in a stability review meeting...").
+
+2. SENTENCE LENGTH AND RHYTHM
+Short, declarative sentences carry the emotional/rhetorical weight:
+ - "This is legal. It is also not helpful."
+ - "The actives were intact. The formulation was working as designed. It was designed for the
+   wrong context."
+Longer sentences are reserved for mechanism/technical explanation, and are almost always followed
+by a short sentence that restates the stakes in plain language. Paragraphs are short — often 3-5
+sentences — and each paragraph tends to carry exactly one idea or one data point.
+
+3. USE OF DATA / EVIDENCE
+Never a vague claim without a number attached: percentages, pH values, exact timeframes, sample
+sizes ("23% of returns," "pH 3.5-6.0," "14 months," "340 profile visits in 48 hours," "71% from
+cities with humidity above 70%"). She frequently self-qualifies mid-argument with a signature
+"I'm not saying X — I'm saying Y" construction to pre-empt overreading her point. She cites her
+own brand's data plainly, including when it's unflattering (return rates, formulation delays).
+
+4. WHAT SHE NEVER SAYS
+No wellness/marketing language: no "glow," "skin-loving," "radiant," "clean," "natural" used
+uncritically. No superlatives without evidence behind them ("best," "revolutionary"). No
+exclamation points. No generic email sign-offs — every newsletter ends with just "Meera," nothing
+else added.
+
+5. HOW PERSONAL SHE GETS
+One specific professional anecdote per piece, used strictly in service of the argument, then
+pulled back into the technical point — she doesn't linger in the personal moment:
+ "It is not a particularly inspiring story. It is a documentation gap and a decision to do
+ something about it."
+She is unusually willing to disclose what Skinstinct does NOT have or hasn't solved yet (no
+Vitamin C product after 14 months of trying, no peptide product) — this functions as a
+credibility move, not a confession.
+
+6. STRUCTURE / RECURRING DEVICES
+- Numbered or sequential build-up of reasoning ("first thing... second thing... third thing" or
+  "Here's why it matters" as a mid-piece pivot).
+- Ends many pieces with one direct, actionable instruction to the reader ("You should ask for
+  them." / "Ask what the clinical testing... involved.").
+- Closes technical explanations with a short punchy line that reframes the whole piece.
+- Consistently favours "documentation," "evidence," "concentration," "delivery," "stability" over
+  any marketing vocabulary.
+
+DONE-WHEN CHECK: A drafted post should sound like it's making an argument from evidence toward a
+specific, slightly uncomfortable conclusion — not selling anything. If it reads like generic
+skincare copy or uses hype language, it has missed her voice.

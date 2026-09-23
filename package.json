@@ -1,0 +1,23 @@
+{
+  "name": "skinstinct-content-pipeline",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Telegram -> Gemini pipeline that turns Meera Pillai's raw notes into LinkedIn post drafts in her voice.",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "tsc --noEmit",
+    "set-webhook": "tsx scripts/set-webhook.ts",
+    "delete-webhook": "tsx scripts/delete-webhook.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@vercel/node": "^3.2.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4"
+  }
+}
