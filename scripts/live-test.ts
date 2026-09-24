@@ -5,6 +5,7 @@ import { config } from "../lib/config.js";
 import { extractIncomingMessage, extractText, sendMessage } from "../lib/telegram.js";
 import type { TelegramUpdate } from "../lib/telegram.js";
 import { runPipeline } from "../lib/pipeline.js";
+import { formatReply } from "../lib/formatReply.js";
 
 async function getUpdates(offset?: number): Promise<TelegramUpdate[]> {
   const url = new URL(`https://api.telegram.org/bot${config.telegramBotToken}/getUpdates`);
@@ -38,12 +39,8 @@ async function main() {
       const result = await runPipeline(note);
       console.log("Pipeline result:", result);
 
-      if (result.status === "drafted") {
-        await sendMessage(message.chat.id, `Draft ready for review:\n\n${result.draft}`);
-        console.log("Sent draft back to Telegram.");
-      } else {
-        console.log("Note was skipped - no message sent.");
-      }
+      await sendMessage(message.chat.id, formatReply(result));
+      console.log(`Sent ${result.status} reply back to Telegram.`);
       return;
     }
   }

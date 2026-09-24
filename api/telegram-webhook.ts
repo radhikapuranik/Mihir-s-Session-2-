@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { config } from "../lib/config.js";
 import { extractIncomingMessage, extractText, sendMessage } from "../lib/telegram.js";
 import { runPipeline } from "../lib/pipeline.js";
+import { formatReply } from "../lib/formatReply.js";
 import type { TelegramUpdate } from "../lib/telegram.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -40,11 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // here would risk the pipeline getting killed mid-run.
   try {
     const result = await runPipeline(note);
-    if (result.status === "drafted") {
-      await sendMessage(message.chat.id, `Draft ready for review:\n\n${result.draft}`);
-    } else {
-      await sendMessage(message.chat.id, result.message);
-    }
+    await sendMessage(message.chat.id, formatReply(result));
   } catch (err) {
     console.error("Pipeline error:", err);
     try {
