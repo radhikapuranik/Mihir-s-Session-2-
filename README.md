@@ -7,15 +7,30 @@ edit, and publish herself.
 ## How it works
 
 1. Meera drops a note (voice-note transcription, observation, anything) into her private
-   Telegram channel. The bot is already an admin there.
-2. Telegram delivers the new post to `api/telegram-webhook.ts` via webhook.
-3. **Gate** ([lib/gemini.ts](lib/gemini.ts) `evaluateNote`) - Gemini judges whether the note has
-   enough substance to become a post. Most notes are fragments and get silently dropped here.
-4. **Draft** (`draftLinkedInPost`) - notes that pass are drafted into a full LinkedIn post,
-   following [voice-skill.txt](voice-skill.txt) closely, optionally grounded with a topical
-   reference from [lib/topicalReference.ts](lib/topicalReference.ts) (not wired to a live source
-   yet - see that file).
-5. The draft is sent back to the same Telegram chat for Meera to review.
+   Telegram channel/chat. The bot is already an admin there.
+2. Telegram delivers the new message to `api/telegram-webhook.ts` via webhook.
+3. **Merged scoring gate** ([lib/gemini.ts](lib/gemini.ts) `scoreNote`) - Gemini scores the note
+   0-10 on one combined judgment: is it substantial (a real claim/data point/anecdote, not a
+   fragment) AND on-brand (matches [lib/meeraProfile.ts](lib/meeraProfile.ts) - her role, company,
+   voice, audience, and on/off-brand topics). Below 6, the pipeline stops: a short, kind message
+   referencing the reason goes back to Telegram, no draft is generated.
+4. **News angle from the note itself** ([lib/newsAngle.ts](lib/newsAngle.ts)) - for notes that
+   pass, Gemini extracts 3-5 keywords/phrases actually present in the note (not generic industry
+   terms), searches Google News RSS (no API key needed) for each, and picks whichever result's
+   headline shares the most significant words with those keywords. If nothing matches well,
+   no article is passed to drafting.
+5. **Draft** (`draftLinkedInPost`) - the note (plus the candidate article, if any) is drafted into
+   a full LinkedIn post following [voice-skill.txt](voice-skill.txt) closely. The model decides for
+   itself whether the article is actually relevant enough to use - a keyword match alone doesn't
+   force it into the post.
+6. **Sources block** ([lib/sourcesBlock.ts](lib/sourcesBlock.ts)) - appended only if the article was
+   genuinely used; omitted entirely otherwise. If a specific fact from the article was pulled into
+   the post body, a "verify before publishing" flag is added above the sources block.
+7. The result (draft or rejection message) is sent back to the same Telegram chat for Meera to
+   review - nothing is ever auto-posted.
+
+There's no persistence layer (no Supabase or similar) - rejections are reported back over
+Telegram but not logged anywhere; add a datastore later if you need a rejection history.
 
 ## Project structure
 
@@ -23,10 +38,13 @@ edit, and publish herself.
 api/telegram-webhook.ts   Vercel serverless function - Telegram webhook entry point
 lib/config.ts             Loads env vars (throws only when a missing key is actually used)
 lib/telegram.ts           Telegram Bot API calls (send message, parse updates)
-lib/gemini.ts             Gemini calls: the substantiality gate + the drafting prompt
+lib/meeraProfile.ts       Fixed profile block (role, company, voice, audience, on/off-brand topics)
+                          embedded in the scoring prompt - edit this directly to tune the gate
+lib/gemini.ts             Gemini calls: scoring gate, keyword extraction, drafting prompt
+lib/newsAngle.ts          Google News RSS search + relevance matching from the note's own keywords
+lib/sourcesBlock.ts       Appends the sources block / verify flag to a finished draft
 lib/voiceSkill.ts         Loads voice-skill.txt
-lib/topicalReference.ts   Placeholder for an optional news/data lookup
-lib/pipeline.ts           Wires gate -> topical reference -> draft together
+lib/pipeline.ts           Wires gate -> news angle -> draft -> sources block together
 scripts/set-webhook.ts    One-time: point Telegram at your deployed function
 scripts/delete-webhook.ts Remove the webhook (pause the pipeline)
 voice-skill.txt           Meera's voice profile, used verbatim in the drafting prompt
@@ -80,6 +98,11 @@ WEBHOOK_URL=https://<your-app>.vercel.app/api/telegram-webhook npm run set-webho
 
 ## Notes
 
-- This pipeline never auto-posts. It only ever sends a draft back to the Telegram chat.
-- The gate step exists specifically because most raw notes are fragments - only substantial ones
-  reach the (more expensive) drafting step.
+- This pipeline never auto-posts. It only ever sends a draft (or a rejection message) back to the
+  Telegram chat.
+- The scoring gate is a single combined judgment (substance + brand fit), not two averaged scores
+  - a well-written note about something off-brand scores low same as a fragment.
+- [lib/meeraProfile.ts](lib/meeraProfile.ts) is a best-guess fill-in based on `voice-skill.txt` and
+  known context (Skinstinct founder). Edit it directly if it doesn't match how Meera would
+  describe her own brand, audience, or on/off-brand topics - it directly drives the gate's fit
+  judgment.

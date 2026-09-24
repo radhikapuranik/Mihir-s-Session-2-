@@ -42,9 +42,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const result = await runPipeline(note);
     if (result.status === "drafted") {
       await sendMessage(message.chat.id, `Draft ready for review:\n\n${result.draft}`);
+    } else {
+      await sendMessage(message.chat.id, result.message);
     }
-    // Skipped notes are silently dropped by design - most notes are fragments and
-    // Meera doesn't need a notification for every one that didn't pass the gate.
   } catch (err) {
     console.error("Pipeline error:", err);
     try {
